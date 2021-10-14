@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <style type="text/css">
+        .my_calculator{
+            border: 2px grey solid;
+            display: flex;
+            flex-direction: column;
+            padding: 6px;
+            font-size: 16px;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .input-group, .operators{
+            display: flex;
+        }
+        .operators > button.current{
+            background-color: orange;
+        }
+        .input-group > input, .operators > button{
+            flex-grow: 1;
+            flex-shrink: 1;
+            font-size: 1.5em;
+        }
+        .input-group{
+            display: flex;
+            flex-direction: column;
+        }
+        .operators > button{
+            height: 50px;
+        }
+        .result{
+            text-align: center;
+            height: 50px;
+            line-height: 50px;
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body>
+    <div class="my_calculator">
+        <div class="input-group">
+            <input type="text" value="0" class="f-input"/>
+            <input type="text" value="0" class="s-input"/>
+        </div>
+        <div class="operators">
+            <button data-operator="plus" class="current">+</button>
+            <button data-operator="minus">-</button>
+            <button data-operator="mul">*</button>
+            <button data-operator="div">/</button>
+        </div>
+        <div class="result">
+            0
+        </div>
+    </div>
+    <script src="./calculator.js"></script>
+</body>
+</html>
