@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Three-columns</title>
+</head>
+<body>
+    <div class="container">
+        <div class="side left"></div>
+        <div class="middle"></div>
+        <div class="side right"></div>
+    </div>
+    <style>
+        body{
+            padding: 0;
+            margin: 0;
+        }
+        .container{
+            position: relative;
+            width: 100%;
+            min-width: 600px;
+            height: 600px;
+        }
+        .container>div{
+            height: 100%;
+        }
+        .container>.side{
+            width: 300px;
+            background-color: green;
+        }
+        .container>.middle{
+            background-color: yellow;
+            position: absolute;
+            right: 300px;
+            left: 300px;
+        }
+        .container>.left{
+            position: absolute;
+            left: 0;
+        }
+        .container>.right{
+            position: absolute;
+            right: 0;
+        }  
+    </style>
+</body>
+</html>
