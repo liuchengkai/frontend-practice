@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <input type="text" v-model="age"/>
+    </div>
+    <script type="text/javascript" src="../../node_modules/vue/dist/vue.js">
+    </script>
+    <script type="text/javascript">
+        const rulesPlugin = {
+            install(Vue){
+                Vue.mixin({
+                    created(){
+                        if(this.$options.hasOwnProperty("rules")){
+                            const rules = this.$options.rules
+                            Object.keys(rules).forEach(key => {
+                                const rule = rules[key]
+                                this.$watch(key, (newValue)=>{
+                                    console.log("validating newValue")
+                                    const result = rule.validate(newValue)
+                                    if(result){
+                                        console.log("Success")
+                                    }else{
+                                        console.log(rule.message())
+                                    }
+                                })
+                            })
+                        }
+                    }
+                })
+            }
+        }
+
+        Vue.use(rulesPlugin)
+
+        const app = new Vue({
+            el: "#app",
+            data: {
+                age: 20
+            },
+            rules: {
+                age: {
+                    validate: (v)=>{
+                        return v > 18
+                    },
+                    message: ()=>"For older than 18 only"
+                }
+            }
+        })
+    </script>
+</body>
+</html>
