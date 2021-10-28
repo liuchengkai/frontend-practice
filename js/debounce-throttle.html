@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>count: <span id="count">0</span></div>
+    <div id="debounce"><button>debounce</button></div>
+    <div id="throttle"><button>throttle</button></div>
+    <script type="text/javascript">
+        let count = 0
+        const debounce_container = document.getElementById("debounce")
+        const throttle_container = document.getElementById("throttle")
+        const throttle_button = throttle_container.getElementsByTagName("button")[0]
+        const debounce_button = debounce_container.getElementsByTagName("button")[0]
+        const count_el = document.getElementById("count")
+        throttle_button.addEventListener("click", throttle(add).bind(throttle_button, 1))
+        debounce_button.addEventListener("click", debounce(add).bind(debounce_button, 1))
+        function add(step){
+            count += step
+            count_el.innerText = count
+        }
+        function debounce(fn, delay = 1000){
+            let timer = null
+            return function(...args){
+                if(!timer){
+                    fn.apply(this, args)
+                }
+                clearTimeout(timer)
+                timer = setTimeout(() => {
+                    timer = null
+                }, delay)
+            }
+        }
+        function throttle(fn, delay = 1000){
+            let timer = null
+            return function(...args){
+                if(!timer){
+                    fn.apply(this, args)
+                    timer = setTimeout(()=>{
+                        timer = null
+                    }, delay)
+                }
+            }
+        }
+    </script>
+</body>
+</html>
