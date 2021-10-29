@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <counter></counter>
+        <counter></counter>
+        <button @click="inc_count">inc</button>
+    </div>
+    <script type="text/javascript" src="../../node_modules/vue/dist/vue.js">
+    </script>
+    <script type="text/javascript">
+        function createStore({state, mutations}){
+            return new Vue({
+                data: {
+                    state
+                },
+                methods: {
+                    commit: function(mutationKey){
+                        mutations[mutationKey](state)
+                    }
+                }
+            })
+        }
+        
+        const store = createStore({
+            state: {
+                count: 1
+            },
+            mutations: {
+                inc: function(state){
+                    state.count ++
+                }
+            }
+        })
+        const Counter = {
+            render(h){
+                return h('div', store.state.count)
+            }
+        }
+        const app = new Vue({
+            el: "#app",
+            components: {
+                Counter
+            },
+            methods: {
+                inc_count(){
+                    store.commit('inc')
+                }
+            }
+        })
+    </script>
+</body>
+</html>
