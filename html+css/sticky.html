@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div></div>
+    <div class="myHeader"></div>
+    <div class="sticky"></div>
+    <div></div>
+    <style type="text/css">
+        div{
+            width: 100%;
+            height: 100px;
+        }
+        div:nth-child(1){
+            background-color: red;
+        }
+        div:nth-child(2){
+            background-color: blue;
+        }
+        div:nth-child(3){
+            position: fixed;
+            background-color: blue;
+        }
+        div:nth-child(4){
+            background-color: yellow;
+            margin-bottom: 900px;
+        }
+    </style>
+    <script type="text/javascript">
+        window.onload = function(){
+            const stickyHeader = document.getElementsByClassName("sticky")[0]
+            const myHeader = document.getElementsByClassName("myHeader")[0]
+            const myHeader_top = myHeader.offsetTop
+            let timer = null
+            stickyHeader.style.top = "-100px"
+            window.onscroll = function(){
+                let scrollTop = document.documentElement.scrollTop || document.body.scrollTop
+                let timer = null
+                if(scrollTop > myHeader_top + 100){
+                    if(timer) return
+                    clearInterval(timer)
+                    timer = setInterval(()=>{
+                        stickyHeader.style.top = stickyHeader.offsetTop + 5 + 'px'
+                        if(stickyHeader.offsetTop >= 0){
+                            stickyHeader.style.top = '0px'
+                            clearInterval(timer)
+                            timer = null
+                        }
+                    }, 33.3)
+                }else{
+                    if(timer) return
+                    clearInterval(timer)
+                    timer = setInterval(()=>{
+                        stickyHeader.style.top = stickyHeader.offsetTop - 5 + 'px'
+                        if(scrollTop <= myHeader_top || stickyHeader.offsetTop <= -100){
+                            stickyHeader.style.top = '-100px'
+                            clearInterval(timer)
+                            timer = null
+                        }
+                    }, 33.3)
+                }
+            }
+        }
+    </script>
+</body>
+</html>
