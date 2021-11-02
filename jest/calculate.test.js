@@ -1,5 +1,4 @@
-const calculate = require('./calculate.js')
-const {add, minus} = calculate
+import {add, minus} from './calculate'
 
 
 test('add function', ()=>{
