@@ -8,7 +8,6 @@
 </head>
 <body>
     <div id="app">
-        <div>{{ title }}</div>
     </div>
     <script type="text/javascript">
         function observe(obj){
@@ -26,6 +25,7 @@
                 set(newValue){
                     console.log(`set value to ${newValue}`)
                     value = newValue
+                    app.update()
                 }
             })
         }
@@ -37,7 +37,22 @@
         }
 
         Vue.prototype.$mount = function(selector){
+            // generate DOM
 
+            // Update
+            this.update = function(){
+                const child = this.$options.render.call(this)
+                const parent = document.querySelector(selector)
+                if(!this.isMounted){
+                    parent.appendChild(child)
+                    this.isMounted = true
+                    this.$options.mounted.call(this)
+                }else{
+                    parent.innerHTML = ""
+                    parent.appendChild(child)
+                }
+            }
+            this.update()
         }
     </script>
     <script type="text/javascript">
@@ -49,8 +64,13 @@
             },
             mounted(){
                 setTimeout(()=>{
-                    this.title = "New title"
+                    this.$data.title = "New title"
                 }, 1000)
+            },
+            render(){
+                const h1 = document.createElement("h1")
+                h1.textContent = this.$data.title
+                return h1
             }
         })
         app.$mount("#app")
