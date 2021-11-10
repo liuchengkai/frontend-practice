@@ -41,19 +41,74 @@
 
             // Update
             this.update = function(){
-                const child = this.$options.render.call(this)
-                const parent = document.querySelector(selector)
+                const vnode = this.$options.render.call(this, this.createElement)
                 if(!this.isMounted){
-                    parent.appendChild(child)
+                    const parent = document.querySelector(selector)
+                    this.patch(parent, vnode)
                     this.isMounted = true
-                    this.$options.mounted.call(this)
+                    if(this.$options.mounted){
+                        this.$options.mounted.call(this)
+                    }
                 }else{
-                    parent.innerHTML = ""
-                    parent.appendChild(child)
+                    // diff
+                    this.patch(this._vnode, vnode)
                 }
+                this._vnode = vnode
             }
             this.update()
         }
+
+        Vue.prototype.createElement = function(tag, props, children){
+            return {tag, props, children}
+        }
+
+        Vue.prototype.patch = function(n1, n2){
+            if(n1.nodeType){
+                const child = this.createElm(n2)
+                n1.appendChild(child)
+                n2.$el = child
+            }else{
+                const el = n2.$el = n1.$el
+                if(n1.tag === n2.tag){
+                    // same node
+                    if(typeof n1.children === 'string'){
+                        if(typeof n2.children === 'string'){
+                            if(n1.children !== n2.children){
+                                el.textContent = n2.children
+                            }
+                        }else{
+                            // replace text with elements
+                        }
+                    }else{
+                        if(typeof n2.children === 'string'){
+                            // replace elements with text
+                        }else{
+                            // updateChildren
+                        }
+                    }
+                }else{
+                    // replacement
+                }
+            }
+        }
+
+        Vue.prototype.createElm = function(vnode){
+            const {tag, children} = vnode
+            const el = document.createElement(tag)
+            // props
+            // children
+            if(Array.isArray(children)){
+                children.forEach(child => {
+                    el.appendChild(this.createElm(child))
+                })
+            }else{
+                el.textContent = children
+            }
+            vnode.$el = el
+            return el
+        }
+
+
     </script>
     <script type="text/javascript">
         const app = new Vue({
@@ -67,10 +122,8 @@
                     this.$data.title = "New title"
                 }, 1000)
             },
-            render(){
-                const h1 = document.createElement("h1")
-                h1.textContent = this.$data.title
-                return h1
+            render(h){
+                return h('h1', null, this.$data.title)
             }
         })
         app.$mount("#app")
