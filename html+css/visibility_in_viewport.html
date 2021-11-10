@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="light"></div>
+    <div class="content"></div>
+    <div id="elementToBeLoaded"></div>
+    <div class="content"></div>
+    <style>
+        .content{
+            background-color: yellow;
+            width: 100%;
+            height: 1400px;
+        }
+
+        #elementToBeLoaded{
+            background-color: blue;
+            width: 100%;
+            height: 300px;
+        }
+
+        #light{
+            background-color: grey;
+            border-radius: 100%;
+            width: 30px;
+            height: 30px;
+            position: fixed;
+            top: 30px;
+            right: 30px;
+        }
+    </style>
+    <script>
+        const el = document.getElementById("elementToBeLoaded")
+        const light = document.getElementById("light")
+        window.onscroll = function(){
+            let el_top = el.getBoundingClientRect().top
+            // https://www.cnblogs.com/wangkongming/p/6195903.html
+            if(el_top < document.documentElement.clientHeight){
+                light.style.backgroundColor = "green"
+            }else{
+                light.style.backgroundColor = "grey"
+            }
+        }
+    </script>
+</body>
+</html>
