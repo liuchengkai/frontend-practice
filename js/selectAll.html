@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        TODO-LIST <br/>
+        Get an offer<input type="checkbox" name="todo"/>
+        Get two offers<input type="checkbox" name="todo"/>
+        Win a lottery<input type="checkbox" name="todo"/>
+        Sleep<input type="checkbox" name="todo"/>
+        Eat<input type="checkbox" name="todo"/>
+        <button onclick="select('todo', 'selectAll')">select all</button>
+        <button onclick="select('todo', 'unselectAll')">unselect all</button>
+        <button onclick="select('todo', 'reverse')">reverse</button>
+    </div>
+    <script>
+        function select(name, action){
+            const todo_list = document.getElementsByName(name)
+            if(!todo_list.length) return
+            todo_list.forEach(l => {
+                if(l.checked){
+                    if(action!=='selectAll'){
+                        l.checked = false
+                    }
+                }else{
+                    if(action!=='unselectAll'){
+                        l.checked = true
+                    }
+                }
+            })
+        }
+    </script>
+</body>
+</html>
